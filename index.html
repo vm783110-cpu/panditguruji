@@ -9,46 +9,44 @@
 <style>
 *{
     box-sizing:border-box;
-    margin:0;
-    padding:0;
     font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
+    margin:0;
     background:#0f1c2e;
     min-height:100vh;
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:16px;
+    padding:20px;
 }
 
-/* CARD */
+/* Card */
 .card{
-    background:#111c2f;
-    width:92vw;
+    width:100%;
     max-width:420px;
-    padding:26px 22px;
-    border-radius:20px;
+    background:#111c2f;
+    padding:28px 22px;
+    border-radius:18px;
     text-align:center;
     color:#fff;
-    box-shadow:0 0 35px rgba(0,0,0,.6);
+    box-shadow:0 0 40px rgba(0,0,0,.6);
 }
 
-/* DP BOX */
+/* DP */
 .dp-box{
-    width:110px;
-    height:110px;
+    width:120px;
+    height:120px;
     margin:0 auto 12px;
     border-radius:50%;
-    background:#1f2e4a;
+    border:3px dashed #66aaff;
     display:flex;
     align-items:center;
     justify-content:center;
     cursor:pointer;
-    position:relative;
     overflow:hidden;
-    border:2px dashed #4da3ff;
+    position:relative;
 }
 
 .dp-box img{
@@ -58,58 +56,71 @@ body{
     display:none;
 }
 
-.dp-text{
-    font-size:12px;
-    color:#9ecbff;
+/* blink ring */
+.dp-box::after{
+    content:"";
+    position:absolute;
+    inset:-6px;
+    border-radius:50%;
+    border:2px solid #3aa2ff;
+    animation:pulse 1s infinite;
 }
 
-h1{
-    font-size:22px;
-    margin-bottom:6px;
+@keyframes pulse{
+    0%{transform:scale(1);opacity:1}
+    100%{transform:scale(1.25);opacity:0}
+}
+
+.dp-text{
+    font-size:13px;
+    color:#9fc5ff;
+}
+
+h2{
+    margin:10px 0 6px;
 }
 
 .sub{
-    font-size:13px;
-    color:#b7c9ff;
-    margin-bottom:14px;
-}
-
-ul{
-    list-style:none;
-    text-align:left;
     font-size:14px;
-    margin-bottom:18px;
+    color:#bcd6ff;
+    margin-bottom:12px;
 }
 
-ul li{
-    margin-bottom:8px;
+/* list */
+.list{
+    text-align:left;
+    margin:14px 0;
+    font-size:14px;
 }
 
-/* BLINK BUTTON */
+.list div{
+    margin:6px 0;
+}
+
+/* button */
 .join-btn{
+    margin-top:16px;
     display:block;
     width:100%;
-    padding:14px 10px;
-    background:#3aa6ff;
-    color:#fff;
-    text-decoration:none;
-    font-weight:bold;
+    padding:14px;
     border-radius:10px;
-    font-size:16px;
-    animation:blink 1s infinite;
-    box-shadow:0 0 15px rgba(58,166,255,.9);
+    text-decoration:none;
+    background:#2fa4ff;
+    color:#fff;
+    font-weight:bold;
+    animation:blinkBtn 0.9s infinite;
 }
 
-@keyframes blink{
-    0%{opacity:1; box-shadow:0 0 10px #3aa6ff;}
-    50%{opacity:.5; box-shadow:0 0 35px #3aa6ff;}
-    100%{opacity:1; box-shadow:0 0 10px #3aa6ff;}
+@keyframes blinkBtn{
+    0%{box-shadow:0 0 5px #2fa4ff;}
+    50%{box-shadow:0 0 25px #2fa4ff;}
+    100%{box-shadow:0 0 5px #2fa4ff;}
 }
 
 .footer{
+    margin-top:10px;
     font-size:12px;
-    color:#9fb2ff;
-    margin-top:12px;
+    color:#9fb5d9;
 }
 </style>
 </head>
@@ -118,29 +129,31 @@ ul li{
 
 <div class="card">
 
-    <!-- DP upload -->
+    <!-- DP Upload -->
     <label class="dp-box">
-        <span class="dp-text">Upload DP</span>
-        <img id="preview">
+        <img id="dpPreview" src="logo.png">
+        <div id="dpText" class="dp-text">Upload DP</div>
         <input type="file" accept="image/*" hidden id="dpInput">
     </label>
 
-    <h1>Cricket Pandit 🔥</h1>
-    <div class="sub">Daily cricket updates & match insights directly on Telegram</div>
+    <h2>Cricket Pandit 🔥</h2>
+    <div class="sub">
+        Daily cricket updates & match insights directly on Telegram
+    </div>
 
-    <ul>
-        <li>✅ Accurate match previews & analysis</li>
-        <li>✅ Team news & playing-11 updates</li>
-        <li>✅ Live match alerts & notifications</li>
-        <li>✅ No spam – only cricket content</li>
-        <li>✅ Free & open community</li>
-    </ul>
+    <div class="list">
+        <div>✅ Accurate match previews & analysis</div>
+        <div>✅ Team news & playing-11 updates</div>
+        <div>✅ Live match alerts & notifications</div>
+        <div>✅ No spam – only cricket content</div>
+        <div>✅ Free & open community</div>
+    </div>
 
-    <!-- YOUR TELEGRAM LINK -->
+    <!-- 🔴 Apna Telegram link yaha hai -->
     <a class="join-btn"
        href="https://t.me/+MIDQLhjIY_U4NjU1"
        target="_blank">
-        Join Telegram Channel Now
+       Join Telegram Channel Now
     </a>
 
     <div class="footer">
@@ -151,20 +164,27 @@ ul li{
 
 <script>
 const input = document.getElementById("dpInput");
-const preview = document.getElementById("preview");
-const text = document.querySelector(".dp-text");
+const img   = document.getElementById("dpPreview");
+const text  = document.getElementById("dpText");
+const box   = document.querySelector(".dp-box");
 
-document.querySelector(".dp-box").addEventListener("click",()=>{
+/* click pe file open */
+box.addEventListener("click",()=>{
     input.click();
 });
 
+/* preview */
 input.addEventListener("change",function(){
-    if(this.files && this.files[0]){
-        const url = URL.createObjectURL(this.files[0]);
-        preview.src = url;
-        preview.style.display="block";
-        text.style.display="none";
+    const file = this.files[0];
+    if(!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e){
+        img.src = e.target.result;
+        img.style.display = "block";
+        text.style.display = "none";
     }
+    reader.readAsDataURL(file);
 });
 </script>
 

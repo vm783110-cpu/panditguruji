@@ -2,39 +2,53 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Cricket Pandit - Join Telegram</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cricket Pandit</title>
 
 <style>
-body{
+*{
+    box-sizing:border-box;
     margin:0;
+    padding:0;
     font-family:Arial,Helvetica,sans-serif;
-    background:#0f1c2e;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
 }
 
+body{
+    background:#0f1c2e;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:16px;
+}
+
+/* CARD */
 .card{
     background:#111c2f;
-    width:92vw;          /* mobile ke hisaab se full */
-    max-width:420px;    /* desktop par zyada bada na ho */
-    padding:28px 22px;;
+    width:92vw;
+    max-width:420px;
+    padding:26px 22px;
+    border-radius:20px;
+    text-align:center;
+    color:#fff;
+    box-shadow:0 0 35px rgba(0,0,0,.6);
 }
 
-/* DP area */
+/* DP BOX */
 .dp-box{
     width:110px;
     height:110px;
-    margin:0 auto 10px;
+    margin:0 auto 12px;
     border-radius:50%;
     background:#1f2e4a;
     display:flex;
-    justify-content:center;
     align-items:center;
-    overflow:hidden;
+    justify-content:center;
     cursor:pointer;
-    border:2px dashed #3fa9f5;
+    position:relative;
+    overflow:hidden;
+    border:2px dashed #4da3ff;
 }
 
 .dp-box img{
@@ -44,62 +58,58 @@ body{
     display:none;
 }
 
-input[type=file]{
-    display:none;
+.dp-text{
+    font-size:12px;
+    color:#9ecbff;
 }
 
 h1{
-    margin:10px 0 5px;
-    font-size:26px;
+    font-size:22px;
+    margin-bottom:6px;
 }
 
-.subtitle{
-    color:#9ecbff;
-    margin-bottom:18px;
-    font-size:14px;
+.sub{
+    font-size:13px;
+    color:#b7c9ff;
+    margin-bottom:14px;
 }
 
 ul{
+    list-style:none;
     text-align:left;
-    padding-left:18px;
     font-size:14px;
+    margin-bottom:18px;
 }
 
-li{
+ul li{
     margin-bottom:8px;
 }
 
 /* BLINK BUTTON */
 .join-btn{
-    margin-top:18px;
     display:block;
-    text-decoration:none;
+    width:100%;
+    padding:14px 10px;
+    background:#3aa6ff;
     color:#fff;
-    background:#1da1ff;
-    padding:14px 18px;
-    border-radius:10px;
-    font-size:18px;
+    text-decoration:none;
     font-weight:bold;
-    animation:blink 0.7s infinite alternate;
+    border-radius:10px;
+    font-size:16px;
+    animation:blink 1s infinite;
+    box-shadow:0 0 15px rgba(58,166,255,.9);
 }
 
 @keyframes blink{
-    0%{
-        box-shadow:0 0 5px #1da1ff;
-        transform:scale(1);
-        background:#1da1ff;
-    }
-    100%{
-        box-shadow:0 0 25px #1da1ff;
-        transform:scale(1.07);
-        background:#38b6ff;
-    }
+    0%{opacity:1; box-shadow:0 0 10px #3aa6ff;}
+    50%{opacity:.5; box-shadow:0 0 35px #3aa6ff;}
+    100%{opacity:1; box-shadow:0 0 10px #3aa6ff;}
 }
 
 .footer{
-    margin-top:15px;
     font-size:12px;
-    color:#aaa;
+    color:#9fb2ff;
+    margin-top:12px;
 }
 </style>
 </head>
@@ -110,15 +120,13 @@ li{
 
     <!-- DP upload -->
     <label class="dp-box">
+        <span class="dp-text">Upload DP</span>
         <img id="preview">
-        <span id="dpText">Upload DP</span>
-        <input type="file" accept="image/*" id="dpInput">
+        <input type="file" accept="image/*" hidden id="dpInput">
     </label>
 
     <h1>Cricket Pandit 🔥</h1>
-    <div class="subtitle">
-        Daily cricket updates & match insights directly on Telegram
-    </div>
+    <div class="sub">Daily cricket updates & match insights directly on Telegram</div>
 
     <ul>
         <li>✅ Accurate match previews & analysis</li>
@@ -128,9 +136,10 @@ li{
         <li>✅ Free & open community</li>
     </ul>
 
-    <!-- BLINKING BUTTON -->
-    <a class="join-btn" target="_blank"
-       href="https://t.me/+MIDQLhjIY_U4NjU1">
+    <!-- YOUR TELEGRAM LINK -->
+    <a class="join-btn"
+       href="https://t.me/+MIDQLhjIY_U4NjU1"
+       target="_blank">
         Join Telegram Channel Now
     </a>
 
@@ -142,23 +151,22 @@ li{
 
 <script>
 const input = document.getElementById("dpInput");
-const img   = document.getElementById("preview");
-const text  = document.getElementById("dpText");
+const preview = document.getElementById("preview");
+const text = document.querySelector(".dp-text");
 
-input.addEventListener("change", function(){
-    const file = this.files[0];
-    if(!file) return;
+document.querySelector(".dp-box").addEventListener("click",()=>{
+    input.click();
+});
 
-    const reader = new FileReader();
-    reader.onload = function(e){
-        img.src = e.target.result;
-        img.style.display = "block";
-        text.style.display = "none";
+input.addEventListener("change",function(){
+    if(this.files && this.files[0]){
+        const url = URL.createObjectURL(this.files[0]);
+        preview.src = url;
+        preview.style.display="block";
+        text.style.display="none";
     }
-    reader.readAsDataURL(file);
 });
 </script>
 
 </body>
 </html>
-
